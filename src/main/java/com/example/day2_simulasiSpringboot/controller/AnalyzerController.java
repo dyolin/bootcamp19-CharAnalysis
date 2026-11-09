@@ -26,6 +26,10 @@ public class AnalyzerController {
             @RequestBody CharAnalysisRequest request,
             @RequestHeader(value = "X-Request-Id", required = false) String requestId
     ){
+        if (request.getKalimat() == null || request.getKalimat().isBlank()) {
+            return BaseResponse.error("Kalimat tidak boleh kosong");
+        }
+
         System.out.println("X-Request-Id: " + requestId + ", kalimat: " + request.getKalimat());
         return BaseResponse.ok(charAnalysisService.insert(request.getKalimat()));
     }
