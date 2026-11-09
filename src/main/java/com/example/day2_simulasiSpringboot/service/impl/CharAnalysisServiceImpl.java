@@ -34,6 +34,7 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
         return hasil;
     }
 
+    @Override
     public CharAnalysisResponse insert (String kata){
         CharCounter counter = new CharCounter(kata);
         CharAnalysis data = new CharAnalysis();
@@ -45,6 +46,16 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
         CharAnalysis saved = charAnalysisRepository.save(data);
 
         return toResponse(saved);
+    }
+
+    public CharAnalysisResponse getById (Long id) {
+        CharAnalysis data = charAnalysisRepository.findById(id).orElse(null);
+
+        if (data != null) {
+            return toResponse(data);
+        } else {
+            return null;
+        }
     }
 
     private static CharAnalysisResponse toResponse(CharAnalysis data){
