@@ -8,4 +8,5 @@ public interface CharAnalysisService {
     List<CharAnalysisResponse> cari(String kata);
     CharAnalysisResponse insert (String kata);
     CharAnalysisResponse getById (Long id);
+    List<CharAnalysisResponse> findByMinimal (int min);
 }

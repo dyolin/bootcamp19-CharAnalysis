@@ -48,6 +48,7 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
         return toResponse(saved);
     }
 
+    @Override
     public CharAnalysisResponse getById (Long id) {
         CharAnalysis data = charAnalysisRepository.findById(id).orElse(null);
 
@@ -56,6 +57,17 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<CharAnalysisResponse> findByMinimal(int min) {
+        List<CharAnalysis> data = charAnalysisRepository.findByMinimal(min);
+
+        List<CharAnalysisResponse> hasil = new ArrayList<>();
+        for(CharAnalysis d : data){
+            hasil.add(toResponse(d));
+        }
+        return hasil;
     }
 
     private static CharAnalysisResponse toResponse(CharAnalysis data){

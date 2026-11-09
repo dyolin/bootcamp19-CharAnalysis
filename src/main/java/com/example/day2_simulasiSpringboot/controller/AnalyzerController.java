@@ -45,4 +45,15 @@ public class AnalyzerController {
             return BaseResponse.error("Data dengan id " +id+ " tidak ditemukan");
         }
     }
+
+    @GetMapping("/minimal")
+    public BaseResponse<List<CharAnalysisResponse>> findByMinimal (@RequestParam int min){
+        List<CharAnalysisResponse> result = charAnalysisService.findByMinimal(min);
+
+        if(result.isEmpty()){
+            return BaseResponse.error("Tidak ada kalimat dengan total huruf nya >= " +min);
+        }
+
+        return BaseResponse.ok(result);
+    }
 }
