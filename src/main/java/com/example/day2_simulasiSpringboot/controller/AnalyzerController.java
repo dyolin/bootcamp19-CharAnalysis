@@ -22,7 +22,11 @@ public class AnalyzerController {
     }
 
     @PostMapping
-    public BaseResponse<CharAnalysisResponse> insert(@RequestBody CharAnalysisRequest request){
+    public BaseResponse<CharAnalysisResponse> insert(
+            @RequestBody CharAnalysisRequest request,
+            @RequestHeader(value = "X-Request-Id", required = false) String requestId
+    ){
+        System.out.println("X-Request-Id: " + requestId + ", kalimat: " + request.getKalimat());
         return BaseResponse.ok(charAnalysisService.insert(request.getKalimat()));
     }
 
