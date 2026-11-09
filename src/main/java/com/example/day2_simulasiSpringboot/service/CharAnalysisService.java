@@ -9,4 +9,5 @@ public interface CharAnalysisService {
     CharAnalysisResponse insert (String kata);
     CharAnalysisResponse getById (Long id);
     List<CharAnalysisResponse> findByMinimal (int min);
+    List<CharAnalysisResponse> findLatestFive();
 }

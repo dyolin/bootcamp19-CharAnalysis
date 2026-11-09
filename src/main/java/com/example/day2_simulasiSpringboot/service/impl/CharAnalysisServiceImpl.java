@@ -70,6 +70,18 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
         return hasil;
     }
 
+    @Override
+    public List<CharAnalysisResponse> findLatestFive() {
+        List<CharAnalysis> data = charAnalysisRepository.findLatestFive();
+
+        List<CharAnalysisResponse> hasil = new ArrayList<>();
+        for (CharAnalysis d : data){
+            hasil.add(toResponse(d));
+        }
+
+        return hasil;
+    }
+
     private static CharAnalysisResponse toResponse(CharAnalysis data){
         CharCounter counter = new CharCounter(data.getKalimat());
         return CharAnalysisResponse.from(data, counter.toMap());

@@ -56,4 +56,14 @@ public class AnalyzerController {
 
         return BaseResponse.ok(result);
     }
+
+    @GetMapping("/terbaru")
+    public BaseResponse<List<CharAnalysisResponse>> findLatestFive(){
+        List<CharAnalysisResponse> result = charAnalysisService.findLatestFive();
+
+        if (result.isEmpty()){
+            return BaseResponse.error("Data is empty");
+        }
+        return BaseResponse.ok(result);
+    }
 }
