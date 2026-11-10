@@ -3,8 +3,9 @@ package com.example.day2_simulasiSpringboot.controller;
 import com.example.day2_simulasiSpringboot.dto.request.CharAnalysisRequest;
 import com.example.day2_simulasiSpringboot.dto.response.BaseResponse;
 import com.example.day2_simulasiSpringboot.dto.response.CharAnalysisResponse;
-import com.example.day2_simulasiSpringboot.entity.CharAnalysis;
 import com.example.day2_simulasiSpringboot.service.CharAnalysisService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class AnalyzerController {
 
     @PostMapping
     public BaseResponse<CharAnalysisResponse> insert(
-            @RequestBody CharAnalysisRequest request,
+            @Valid @RequestBody CharAnalysisRequest request,
             @RequestHeader(value = "X-Request-Id", required = false) String requestId
     ){
         if (request.getKalimat() == null || request.getKalimat().isBlank()) {
@@ -66,4 +67,10 @@ public class AnalyzerController {
         }
         return BaseResponse.ok(result);
     }
+
+    @PostMapping("/from-quote")
+    public BaseResponse<CharAnalysisResponse> fromQuote(){
+        return BaseResponse.ok(charAnalysisService.analisisDariQuote());
+    }
+
 }

@@ -1,0 +1,12 @@
+package com.example.day2_simulasiSpringboot.rest;
+
+import com.example.day2_simulasiSpringboot.dto.feign.QuoteResponse;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@FeignClient(name = "quoteClient", url = "${quote.api.url}")
+public interface QuoteClient {
+
+    @GetMapping("/quotes/random")
+    QuoteResponse getQuote();
+}
