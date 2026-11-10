@@ -11,6 +11,6 @@ import lombok.Data;
 @Valid
 public class CharAnalysisRequest {
     @NotBlank(message = "Kalimat wajib isi")
-    @Size(max = 255, message = "Kalimat wajib isi sampai 255 karakter")
+    @Size(max = 500, message = "Maksimal panjang kalimat adalah 500 karakter")
     private String kalimat;
 }

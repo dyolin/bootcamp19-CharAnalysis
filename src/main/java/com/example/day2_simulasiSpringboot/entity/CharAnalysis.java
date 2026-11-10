@@ -13,7 +13,7 @@ public class CharAnalysis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 500)
     private String kalimat;
 
     @Column(name = "total_huruf")
