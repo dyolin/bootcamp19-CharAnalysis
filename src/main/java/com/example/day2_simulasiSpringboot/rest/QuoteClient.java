@@ -15,4 +15,7 @@ public interface QuoteClient {
 
     @GetMapping("/quotes/random/{length}")
     List<QuoteResponse> getRandomQuotes(@PathVariable("length") int length);
+
+    @GetMapping("/quotes/{id}")
+    QuoteResponse getQuoteById(@PathVariable Long id);
 }

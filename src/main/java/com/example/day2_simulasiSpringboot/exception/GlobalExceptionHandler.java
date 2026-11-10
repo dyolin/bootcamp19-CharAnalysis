@@ -53,6 +53,11 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, String.join(",", messages));
     }
 
+    @ExceptionHandler(QuoteNotFoundException.class)
+    public ResponseEntity<BaseResponse<Object>> handleQuoteNotFound (QuoteNotFoundException exception){
+        return build(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
     private ResponseEntity<BaseResponse<Object>> build (HttpStatus status, String message){
         return ResponseEntity.status(status).body(BaseResponse.error(message));
     }

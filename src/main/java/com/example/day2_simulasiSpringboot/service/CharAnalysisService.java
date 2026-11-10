@@ -15,4 +15,5 @@ public interface CharAnalysisService {
     //service untuk third party api
     CharAnalysisResponse analisisDariQuote();
     List<CharAnalysisResponse> analisisBatchQuote(int jumlah);
+    CharAnalysisResponse analisisQuoteById(Long id);
 }

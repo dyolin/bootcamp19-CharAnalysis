@@ -86,4 +86,10 @@ public class AnalyzerController {
         return BaseResponse.ok(charAnalysisService.analisisBatchQuote(jumlah));
     }
 
+    @PostMapping("/from-quote/{id}")
+    public BaseResponse<CharAnalysisResponse> fromQuoteById(
+            @PathVariable @Min(value = 1, message = "ID minimal 1")
+            Long id){
+        return BaseResponse.ok(charAnalysisService.analisisQuoteById(id));
+    }
 }

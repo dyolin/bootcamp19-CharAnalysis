@@ -5,6 +5,7 @@ import com.example.day2_simulasiSpringboot.dto.response.CharAnalysisResponse;
 import com.example.day2_simulasiSpringboot.entity.CharAnalysis;
 import com.example.day2_simulasiSpringboot.exception.AnalysisNotFoundException;
 import com.example.day2_simulasiSpringboot.exception.DataAlreadyExistException;
+import com.example.day2_simulasiSpringboot.exception.QuoteNotFoundException;
 import com.example.day2_simulasiSpringboot.exception.QuoteUnavailableException;
 import com.example.day2_simulasiSpringboot.repository.CharAnalysisRepository;
 import com.example.day2_simulasiSpringboot.rest.QuoteClient;
@@ -109,7 +110,7 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
         List<QuoteResponse> quotes;
         try{
             quotes = client.getRandomQuotes(jumlah);
-        }catch(FeignException feignException){
+        } catch(FeignException feignException){
             throw new QuoteUnavailableException("Service Unavailable");
         }
 
@@ -120,6 +121,20 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
             hasil.add(response);
         }
         return hasil;
+    }
+
+    @Override
+    public CharAnalysisResponse analisisQuoteById(Long id) {
+        QuoteResponse quote;
+        try {
+            quote = client.getQuoteById(id);
+        } catch (FeignException.NotFound exception) {
+            throw new QuoteNotFoundException(id);
+        } catch (FeignException exception){
+            throw new QuoteUnavailableException("Service Unavailable");
+        }
+
+        return simpan(quote.getQuote(), quote.getAuthor());
     }
 
     private static CharAnalysisResponse toResponse(CharAnalysis data){
