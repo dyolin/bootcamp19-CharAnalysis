@@ -1,6 +1,7 @@
 package com.example.day2_simulasiSpringboot.exception;
 
 import com.example.day2_simulasiSpringboot.dto.response.BaseResponse;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<BaseResponse<Object>> handleQuoteUnavailable(QuoteUnavailableException exception){
         log.info("QuoteUnavailableException: {}", exception.getMessage());
         return build(HttpStatus.SERVICE_UNAVAILABLE, exception.getMessage());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<BaseResponse<Object>> handleConstraintViolation (ConstraintViolationException exception){
+        return build(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
     private ResponseEntity<BaseResponse<Object>> build (HttpStatus status, String message){

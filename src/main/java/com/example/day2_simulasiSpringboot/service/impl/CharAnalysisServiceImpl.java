@@ -104,6 +104,24 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
         return simpan(quote.getQuote(), quote.getAuthor());
     }
 
+    @Override
+    public List<CharAnalysisResponse> analisisBatchQuote(int jumlah) {
+        List<QuoteResponse> quotes;
+        try{
+            quotes = client.getRandomQuotes(jumlah);
+        }catch(FeignException feignException){
+            throw new QuoteUnavailableException("Service Unavailable");
+        }
+
+        List<CharAnalysisResponse> hasil = new ArrayList<>();
+
+        for(QuoteResponse quote : quotes){
+            CharAnalysisResponse response = simpan(quote.getQuote(), quote.getAuthor());
+            hasil.add(response);
+        }
+        return hasil;
+    }
+
     private static CharAnalysisResponse toResponse(CharAnalysis data){
         CharCounter counter = new CharCounter(data.getKalimat());
         return CharAnalysisResponse.from(data, counter.toMap());
@@ -121,5 +139,4 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
 
         return CharAnalysisResponse.from(data, counter.toMap());
     }
-
 }

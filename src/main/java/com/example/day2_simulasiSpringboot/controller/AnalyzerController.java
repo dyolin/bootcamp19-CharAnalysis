@@ -5,8 +5,11 @@ import com.example.day2_simulasiSpringboot.dto.response.BaseResponse;
 import com.example.day2_simulasiSpringboot.dto.response.CharAnalysisResponse;
 import com.example.day2_simulasiSpringboot.service.CharAnalysisService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class AnalyzerController {
 
     private final CharAnalysisService charAnalysisService;
@@ -70,6 +74,16 @@ public class AnalyzerController {
     @PostMapping("/from-quote")
     public BaseResponse<CharAnalysisResponse> fromQuote(){
         return BaseResponse.ok(charAnalysisService.analisisDariQuote());
+    }
+
+    @PostMapping("/from-quote/batch/{jumlah}")
+    public BaseResponse<List<CharAnalysisResponse>> fromQuoteBatch(
+            @PathVariable
+            @Min(value = 1, message = "Jumlah minimal 1")
+            @Max(value = 10, message = "Jumlah maksimal 10")
+            int jumlah){
+
+        return BaseResponse.ok(charAnalysisService.analisisBatchQuote(jumlah));
     }
 
 }
