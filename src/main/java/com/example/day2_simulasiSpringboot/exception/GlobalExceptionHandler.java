@@ -1,6 +1,7 @@
 package com.example.day2_simulasiSpringboot.exception;
 
 import com.example.day2_simulasiSpringboot.dto.response.BaseResponse;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<BaseResponse<Object>> handleConstraintViolation (ConstraintViolationException exception){
-        return build(HttpStatus.BAD_REQUEST, exception.getMessage());
+        List<String> messages = new ArrayList<>();
+        for(ConstraintViolation<?> violation: exception.getConstraintViolations()){
+            messages.add(violation.getMessage());
+        }
+        return build(HttpStatus.BAD_REQUEST, String.join(",", messages));
     }
 
     private ResponseEntity<BaseResponse<Object>> build (HttpStatus status, String message){
