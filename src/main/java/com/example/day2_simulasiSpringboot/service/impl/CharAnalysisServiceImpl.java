@@ -59,7 +59,7 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
 //
 //        CharAnalysis saved = charAnalysisRepository.save(data);
 
-        return simpan(kata);
+        return simpan(kata, null);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
         }catch (FeignException feignException){
             throw new QuoteUnavailableException("Service unavailable");
         }
-        return simpan(quote.getQuote());
+        return simpan(quote.getQuote(), quote.getAuthor());
     }
 
     private static CharAnalysisResponse toResponse(CharAnalysis data){
@@ -109,17 +109,17 @@ public class CharAnalysisServiceImpl implements CharAnalysisService {
         return CharAnalysisResponse.from(data, counter.toMap());
     }
 
-    public CharAnalysisResponse simpan(String kalimat){
+    public CharAnalysisResponse simpan(String kalimat, String author){
         CharCounter counter = new CharCounter(kalimat);
         CharAnalysis data = new CharAnalysis();
 
         data.setKalimat(kalimat);
+        data.setAuthor(author);
         data.setTotalHuruf(counter.getTotalHuruf());
         data.setCreatedAt(LocalDateTime.now());
         charAnalysisRepository.save(data);
 
         return CharAnalysisResponse.from(data, counter.toMap());
     }
-    //masukin author juga
 
 }

@@ -5,8 +5,8 @@ import com.example.day2_simulasiSpringboot.dto.response.BaseResponse;
 import com.example.day2_simulasiSpringboot.dto.response.CharAnalysisResponse;
 import com.example.day2_simulasiSpringboot.service.CharAnalysisService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
+@Slf4j
 public class AnalyzerController {
 
     private final CharAnalysisService charAnalysisService;
@@ -28,11 +29,9 @@ public class AnalyzerController {
             @Valid @RequestBody CharAnalysisRequest request,
             @RequestHeader(value = "X-Request-Id", required = false) String requestId
     ){
-        if (request.getKalimat() == null || request.getKalimat().isBlank()) {
-            return BaseResponse.error("Kalimat tidak boleh kosong");
-        }
 
-        System.out.println("X-Request-Id: " +requestId+ ", kalimat: " +request.getKalimat());
+        //System.out.println("X-Request-Id: " +requestId+ ", kalimat: " +request.getKalimat());
+        log.info("X-Request-Id: {}, kalimat: {}", requestId,  request.getKalimat());
         return BaseResponse.ok(charAnalysisService.insert(request.getKalimat()));
     }
 
